@@ -1,0 +1,48 @@
+namespace: strapi-docker-compose
+
+db:
+  defines: runnable
+  metadata:
+    name: db
+    description: PostgreSQL database used by the Strapi CMS.
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    db:
+      image: env-3551.registry.local/db:main-e44ba9a
+      build: .
+      dockerfile: Dockerfile.db
+  services:
+    postgres-default:
+      description: Default PostgreSQL port for database connections
+      container: db
+      port: 5432
+      host-port: 5432
+      publish: true
+      protocol: tcp
+  connections:
+    database-to-strapi:
+      target: strapi-docker-compose/strapi
+      service: postgres-default
+      optional: true
+      description: PostgreSQL database connection to Strapi CMS
+  variables:
+    postgres-user:
+      env: POSTGRES_USER
+      type: string
+      value: strapiuser
+      description: Username for PostgreSQL database
+    postgres-password:
+      env: POSTGRES_PASSWORD
+      type: string
+      value: strapiPass123
+      description: Password for PostgreSQL database
+    postgres-db:
+      env: POSTGRES_DB
+      type: string
+      value: strapidb
+      description: Database name for PostgreSQL
+
+stack:
+  defines: group
+  members:
+    - strapi-docker-compose/db
