@@ -1,0 +1,12 @@
+FROM postgres:latest
+
+# Set environment variables
+ENV POSTGRES_USER=${POSTGRES_USER}
+ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+ENV POSTGRES_DB=${POSTGRES_DB}
+
+# Expose the default postgres port
+EXPOSE 5432
+
+# Set the default command for the container to run postgres
+CMD ["postgres"]
